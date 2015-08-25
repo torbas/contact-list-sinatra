@@ -9,6 +9,7 @@ gem 'sinatra-contrib'
 gem 'sinatra-activerecord'
 
 gem 'pg'
+gem 'json'
 
 gem 'puma'
 gem 'tux'
