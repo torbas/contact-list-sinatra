@@ -13,7 +13,7 @@ $(function() {
         var firstname = $("<td>").text(contact.firstname);
         var lastname = $("<td>").text(contact.lastname);
         var email = $("<td>").text(contact.email);
-        var deleteButton = $("<span>").addClass("btn").addClass("btn-danger")
+        var deleteButton = $("<div>").addClass("btn").addClass("btn-danger")
                            .addClass("delete").attr("contact-id", contact.id).text("Delete");
         var deleteCell = $("<td>").append(deleteButton);
         var row = $("<tr>").append(firstname).append(lastname).append(email).append(deleteCell);
@@ -23,27 +23,31 @@ $(function() {
     },
 
     loadContacts: function(){
-      $.ajax({
-        url: "/contacts", 
-        success: handlers.displayContacts
+      var load = $.ajax({
+        url: "/contacts"
       });
+
+      load.done(handlers.displayContacts)
     },
 
     deleteContact: function(id){
-      console.log(contactId);
-      // $.ajax({
-      //   method: "post",
-      //   url: "/contacts/delete/"+id, 
-      //   success: function(){
-      //     handlers.displayContacts()
-      //   }
-      // });
+      var statusDiv = $("#status");
+
+      request = $.ajax({
+        method: "post",
+        url: "/contacts/delete/"+id
+      });
+
+      request.done(function(){
+        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully deleted")
+        handlers.loadContacts;
+      })
     }
   };
 
   handlers.loadContacts();
 
-  $(".delete").on("click", function(){
+  $("#contact-list-body").on("click", ".delete", function(){
       var contactId = $(this).attr("contact-id");
       handlers.deleteContact(contactId);
   });
