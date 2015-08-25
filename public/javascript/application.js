@@ -39,9 +39,12 @@ $(function() {
       });
 
       request.done(function(){
-        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully deleted")
+        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully deleted.");
         handlers.loadContacts;
       })
+      .fail(function(){
+        statusDiv.addClass("alert").addClass("alert-danger").text("Cannot delete. Contact may not exist.");
+      });
     }
   };
 

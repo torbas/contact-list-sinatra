@@ -9,7 +9,7 @@ get '/contacts' do
 end
 
 post '/contacts/delete/:id' do
-  if true #Contact.find(params[:id]).destroy
+  if Contact.find(params[:id]).destroy
     status 202
   else
     status 404
