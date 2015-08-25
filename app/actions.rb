@@ -4,4 +4,6 @@ get '/' do
 end
 
 get '/contacts' do
+  contacts = Contact.all
+  contacts.to_json
 end
