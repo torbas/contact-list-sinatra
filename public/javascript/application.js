@@ -1,4 +1,5 @@
 $(function() {
+  var statusDiv = $("#status");
 
   var handlers = {
     displayContacts: function(result){
@@ -31,7 +32,6 @@ $(function() {
     },
 
     deleteContact: function(id){
-      var statusDiv = $("#status");
 
       request = $.ajax({
         method: "post",
@@ -40,10 +40,25 @@ $(function() {
 
       request.done(function(){
         statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully deleted.");
-        handlers.loadContacts;
+        handlers.loadContacts();
       })
       .fail(function(){
         statusDiv.addClass("alert").addClass("alert-danger").text("Cannot delete. Contact may not exist.");
+      });
+    },
+
+    createContact: function(data){
+      request = $.ajax({
+        method: "post",
+        data: data,
+        url: "/contacts/create"
+      });
+      request.done(function(){
+        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully created.");
+        handlers.loadContacts();
+      })
+      .fail(function(){
+        statusDiv.addClass("alert").addClass("alert-danger").text("Cannot create contact.");
       });
     }
   };
@@ -55,9 +70,17 @@ $(function() {
     handlers.deleteContact(contactId);
   });
 
-  $("#create-form").on("submit", function(event){
-    $(this).reset();
-    event.preventDefault;
-  })
+  $("#create-form").on("submit", function(){
+    
+    var data = {
+      firstname: $("#firstname").val(),
+      lastname: $("#lastname").val(),
+      email: $("#email").val()
+    }
+
+    handlers.createContact(data);
+    $(this)[0].reset();
+    return false;
+  });
 
 });

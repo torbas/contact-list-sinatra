@@ -15,3 +15,12 @@ post '/contacts/delete/:id' do
     status 404
   end
 end
+
+post '/contacts/create' do
+  contact = Contact.new(firstname: params[:firstname],lastname: params[:lastname],email: params[:email]);
+  if contact.save
+    status 202
+  else
+    status 400
+  end
+end

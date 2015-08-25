@@ -1,20 +1,20 @@
 <h1 class="page-header">Contacts</h1>
 <div id="status"></div>
 <br /> <br />
-<form id="create-form" role="form">
+<form id="create-form" role="form" action="/contacts/create" method="post">
   <div class="form-group">
-    <label for="first-name" class="control-label"> First Name: </label>
-    <input type="text" name="first-name" id="first-name" class="form-control" />
+    <label for="firstname" class="control-label"> First Name: </label>
+    <input type="text" name="firstname" id="firstname" class="form-control" />
   </div>
   <div class="form-group">
-    <label for="last-name" class="control-label"> Last Name: </label>
-    <input type="text" name="last-name" id="last-name" class="form-control" />
+    <label for="lastname" class="control-label"> Last Name: </label>
+    <input type="text" name="lastname" id="lastname" class="form-control" />
   </div>
   <div class="form-group">
     <label for="email" class="control-label"> Email: </label>
     <input type="text" name="email" id="email" class="form-control" />
   </div>
-  <input type="submit" class="btn btn-success" name="submit-create" id="submit-create" value="Create Contact" />
+  <input type="submit" class="btn btn-success" name="submit-create" id="submit-create" value="Submit Contact" />
 </form>
 <br /> <br />
 <div class="col-md-6">
