@@ -13,8 +13,10 @@ $(function() {
         var firstname = $("<td>").text(contact.firstname);
         var lastname = $("<td>").text(contact.lastname);
         var email = $("<td>").text(contact.email);
-        //var deleteButton = $("").
-        var row = $("<tr>").append(firstname).append(lastname).append(email);
+        var deleteButton = $("<span>").addClass("btn").addClass("btn-danger")
+                           .addClass("delete").attr("contact-id", contact.id).text("Delete");
+        var deleteCell = $("<td>").append(deleteButton);
+        var row = $("<tr>").append(firstname).append(lastname).append(email).append(deleteCell);
         listBody.append(row);
 
       });
@@ -25,9 +27,25 @@ $(function() {
         url: "/contacts", 
         success: handlers.displayContacts
       });
+    },
+
+    deleteContact: function(id){
+      console.log(contactId);
+      // $.ajax({
+      //   method: "post",
+      //   url: "/contacts/delete/"+id, 
+      //   success: function(){
+      //     handlers.displayContacts()
+      //   }
+      // });
     }
   };
 
   handlers.loadContacts();
+
+  $(".delete").on("click", function(){
+      var contactId = $(this).attr("contact-id");
+      handlers.deleteContact(contactId);
+  });
 
 });
