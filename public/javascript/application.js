@@ -51,8 +51,13 @@ $(function() {
   handlers.loadContacts();
 
   $("#contact-list-body").on("click", ".delete", function(){
-      var contactId = $(this).attr("contact-id");
-      handlers.deleteContact(contactId);
+    var contactId = $(this).attr("contact-id");
+    handlers.deleteContact(contactId);
   });
+
+  $("#create-form").on("submit", function(event){
+    $(this).reset();
+    event.preventDefault;
+  })
 
 });
