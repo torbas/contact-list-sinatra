@@ -1,6 +1,10 @@
 $(function() {
   var statusDiv = $("#status");
   var listBody = $("#contact-list-body");
+  var contactsForm = $("#contacts-form");
+  var inputFirstname = $("#firstname");
+  var inputLastname = $("#lastname");
+  var inputEmail = $("#email");
 
   var handlers = {
     displayContacts: function(result){
@@ -30,7 +34,7 @@ $(function() {
         url: "/contacts"
       });
 
-      load.done(handlers.displayContacts)
+      load.done(handlers.displayContacts);
     },
 
     deleteContact: function(id){
@@ -62,6 +66,22 @@ $(function() {
       .fail(function(){
         statusDiv.addClass("alert").addClass("alert-danger").text("Cannot create contact.");
       });
+    },
+
+    updateContact: function(data){
+      console.log(data);
+      // request = $.ajax({
+      //   method: "post",
+      //   data: data,
+      //   url: "/contacts/"
+      // });
+      // request.done(function(){
+      //   statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully created.");
+      //   handlers.loadContacts();
+      // })
+      // .fail(function(){
+      //   statusDiv.addClass("alert").addClass("alert-danger").text("Cannot create contact.");
+      // });
     }
   };
 
@@ -74,53 +94,43 @@ $(function() {
 
   listBody.on("click", ".edit", function(){
     var contactId = $(this).attr("contact-id");
-    
-    var form = $("<form>").append(
-      // Creating Form Div and Adding <h2> and <p> Paragraph Tag in it.
-      $("<h3/>").text("Contact Form"), $("<p/>").text("This is my form. Please fill it out. It's awesome!"), $("<form/>", {
-      action: '#',
-      method: '#'
-      }).append(
-      // Create <form> Tag and Appending in HTML Div form1.
-      $("<input/>", {
-      type: 'text',
-      id: 'vname',
-      name: 'name',
-      placeholder: 'Your Name'
-      }), // Creating Input Element With Attribute.
-      $("<input/>", {
-      type: 'text',
-      id: 'vemail',
-      name: 'email',
-      placeholder: 'Your Email'
-      }), $("<textarea/>", {
-      rows: '5px',
-      cols: '27px',
-      type: 'text',
-      id: 'vmsg',
-      name: 'msg',
-      placeholder: 'Message'
-      }), $("<br/>"), $("<input/>", {
-      type: 'submit',
-      id: 'submit',
-      value: 'Submit'
-    })));
 
-    $(this).parent().append(form);
+    $('html, body').animate({
+      scrollTop: contactsForm.offset().top
+    }, 500);
 
+    var load = $.ajax({
+      url: "/contact/"+contactId
+    });
 
+    load.done(function(result){
+      parsed = $.parseJSON(result)
+      inputFirstname[0].value = parsed.firstname;
+      inputLastname[0].value = parsed.lastname;
+      inputEmail[0].value = parsed.email;
+      contactsForm.attr("form-role", "update");
+      $("#contact-id").attr("value", contactId)
+    });
 
   });
 
-  $("#contact-form").on("submit", function(){
-    alert($(this).attr("value"));
+  contactsForm.on("submit", function(){
     var data = {
-      firstname: $("#firstname").val(),
-      lastname: $("#lastname").val(),
-      email: $("#email").val()
+      id:        $("#contact-id").val(), 
+      firstname: inputFirstname.val(),
+      lastname:  inputLastname.val(),
+      email:     inputEmail.val()
     }
 
-    handlers.createContact(data);
+    formRole = $(this).attr("form-role");
+
+    if(formRole=="create")
+      handlers.createContact(data);
+    else if (formRole=="update"){
+      handlers.updateContact(data);
+      $(this).attr("form-role", "create");
+    }
+
     $(this)[0].reset();
     return false;
   });

@@ -8,6 +8,14 @@ get '/contacts' do
   contacts.to_json
 end
 
+get '/contact/:id' do
+  contact = Contact.find(params[:id])
+  contact.to_json
+end 
+
+post '/contact/update/:id' do
+end 
+
 post '/contacts/delete/:id' do
   if Contact.find(params[:id]).destroy
     status 202
