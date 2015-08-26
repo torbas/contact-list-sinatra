@@ -69,19 +69,18 @@ $(function() {
     },
 
     updateContact: function(data){
-      console.log(data);
-      // request = $.ajax({
-      //   method: "post",
-      //   data: data,
-      //   url: "/contacts/"
-      // });
-      // request.done(function(){
-      //   statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully created.");
-      //   handlers.loadContacts();
-      // })
-      // .fail(function(){
-      //   statusDiv.addClass("alert").addClass("alert-danger").text("Cannot create contact.");
-      // });
+      request = $.ajax({
+        method: "post",
+        data: data,
+        url: "/contact/update/"+data.id
+      });
+      request.done(function(){
+        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully updated.");
+        handlers.loadContacts();
+      })
+      .fail(function(){
+        statusDiv.addClass("alert").addClass("alert-danger").text("Cannot update. Contact may not exist");
+      });
     }
   };
 

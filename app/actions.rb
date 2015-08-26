@@ -14,6 +14,16 @@ get '/contact/:id' do
 end 
 
 post '/contact/update/:id' do
+  contact = Contact.find(params[:id])
+  contact.firstname = params[:firstname]
+  contact.lastname = params[:lastname]
+  contact.email = params[:email]
+
+  if contact.save
+    status 202
+  else
+    status 400
+  end
 end 
 
 post '/contacts/delete/:id' do
