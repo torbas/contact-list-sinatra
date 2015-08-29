@@ -1,7 +1,7 @@
-Sinatra
+Contact List with Sinatra
 =============
 
-Brought to you by Lighthouse Labs
+Built with Sinatra as the backend REST API. Front-end uses jQuery.
 
 ## Getting Started
 
