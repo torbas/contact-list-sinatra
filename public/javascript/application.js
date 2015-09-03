@@ -7,6 +7,11 @@ $(function() {
   var inputEmail = $("#email");
 
   var handlers = {
+    statusMsg: function(elem, type, msg){
+      alertClass = "alert alert-"+type;
+      elem.addClass(alertClass).text(msg);
+    },
+
     displayContacts: function(result){
 
       //clear list body to simulate reload
@@ -18,10 +23,8 @@ $(function() {
         var firstname = $("<td>").text(contact.firstname);
         var lastname = $("<td>").text(contact.lastname);
         var email = $("<td>").text(contact.email);
-        var deleteButton = $("<div>").addClass("btn").addClass("btn-danger")
-                           .addClass("delete").attr("contact-id", contact.id).text("Delete");
-        var editButton = $("<div>").addClass("btn").addClass("btn-primary")
-                           .addClass("edit").attr("contact-id", contact.id).text("Edit");
+        var deleteButton = $("<div>").addClass("btn btn-danger delete").attr("contact-id", contact.id).text("Delete");
+        var editButton = $("<div>").addClass("btn btn-primary edit").attr("contact-id", contact.id).text("Edit");
         var deleteCell = $("<td>").append(editButton).append(" ").append(deleteButton);
         var row = $("<tr>").append(firstname).append(lastname).append(email).append(deleteCell);
         listBody.append(row);
@@ -45,11 +48,11 @@ $(function() {
       });
 
       request.done(function(){
-        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully deleted.");
+        handlers.statusMsg(statusDiv, "success", "Contact was successfully deleted.");
         handlers.loadContacts();
       })
       .fail(function(){
-        statusDiv.addClass("alert").addClass("alert-danger").text("Cannot delete. Contact may not exist.");
+        handlers.statusMsg(statusDiv, "danger", "Cannot delete. Contact may not exist.");
       });
     },
 
@@ -60,11 +63,11 @@ $(function() {
         url: "/contacts/create"
       });
       request.done(function(){
-        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully created.");
+        handlers.statusMsg(statusDiv, "success", "Contact was successfully created.");
         handlers.loadContacts();
       })
       .fail(function(){
-        statusDiv.addClass("alert").addClass("alert-danger").text("Cannot create contact.");
+        handlers.statusMsg(statusDiv, "danger", "Cannot create contact.");
       });
     },
 
@@ -75,11 +78,11 @@ $(function() {
         url: "/contact/update/"+data.id
       });
       request.done(function(){
-        statusDiv.addClass("alert").addClass("alert-success").text("Contact was successfully updated.");
+        handlers.statusMsg(statusDiv, "success", "Contact was successfully updated.");
         handlers.loadContacts();
       })
       .fail(function(){
-        statusDiv.addClass("alert").addClass("alert-danger").text("Cannot update. Contact may not exist");
+        handlers.statusMsg(statusDiv, "danger", "Cannot update. Contact may not exist");
       });
     }
   };
